@@ -131,8 +131,7 @@ body.addEventListener(
         mole=makeMole()
         displayPoints(points)
         displayTime(time)
-
-            startGame()
+        startGame()
     }
 
     function startGame() {
@@ -142,7 +141,7 @@ body.addEventListener(
             mole=makeMole() 
             console.log('Kret timeout')
             },
-            1500
+            1000
         )
 
         timeIntervalId = setInterval( 

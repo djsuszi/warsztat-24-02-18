@@ -54,17 +54,28 @@ body.addEventListener(
     var points
     var time 
     var mole 
-    var gameIntervalId
+    var gameIntervalId, timeIntervalId
 
     function addPoint() {
-            document.querySelector('body').style.backgroundColor='red'
+        falshBackground()
         points++;
         //document.body.getElementsByClassName('points')[0].innerText=points;
         //console.log('Dodano punkt '+points)
         //makeMole()
         displayPoints(points)
-        document.querySelector('body').style.backgroundColor='green'
+        
     }    
+
+    function falshBackground() {
+        var body = document.querySelector('body')
+        body.style.backgroundColor='red'
+        setTimeout(
+            function() {
+                body.style.backgroundColor='green'
+            },100
+        )
+        
+    }
 
     function displayPoints (pointsParam)    {
         var pointsContainer= document.querySelector('.points')
@@ -89,6 +100,7 @@ body.addEventListener(
                 mole.remove()
                 console.log('Kret Klik')
                 addPoint()
+                
             }
             )
         document.querySelector('body').appendChild(mole)
@@ -98,33 +110,73 @@ body.addEventListener(
     function reduceTime() {
         time--
         displayTime(time)
-
+        if (time === 0) {
+            //document.querySelector('body').style.backgroundColor='red'
+            endGame() }
     }
+
+    function endGame() {
+        
+        clearInterval(gameIntervalId)
+        clearInterval(timeIntervalId)
+        mole.remove()
+        document.querySelector('.end-modal').style.display='block'
+        document.querySelector('.score').innerText=points;
+    }
+
     function init()
     {
         points=0
-        time=10
+        time=3
         mole=makeMole()
         displayPoints(points)
         displayTime(time)
 
-       /* moletime=setInterval( function() {
-                    mole.remove()
-            },10000)
-        */
-
-        gameIntervalId = setInterval( 
-        function() { 
-            mole.remove()
-            mole=makeMole()
-            reduceTime()
-            console.log('Kret timeout')
-        },
-        1500
-        )
+            startGame()
     }
 
+    function startGame() {
+        gameIntervalId = setInterval( 
+            function() { 
+            mole.remove()
+            mole=makeMole() 
+            console.log('Kret timeout')
+            },
+            1500
+        )
+
+        timeIntervalId = setInterval( 
+            function() { 
+            reduceTime()
+            },
+            1000
+        )
+
+    }
     //for (i=0; i<10; i++) {  makeMole(); }
-init()
+//init()
+
+
+function startPage(){
+    document.querySelector('.start-modal button')
+        .addEventListener(
+            'click',
+            function() {
+                document.querySelector('.start-modal').style.display='none'
+                init()
+            }
+        )
+    
+        document.querySelector('.end-modal button')
+        .addEventListener(
+            'click',
+            function() {
+                document.querySelector('.end-modal').style.display='none'
+                init()
+            }
+        )
+}
+//init();
+startPage();
 
 }) () //koniec funkcji anonimowej drugiej

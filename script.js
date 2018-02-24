@@ -127,7 +127,7 @@ body.addEventListener(
     function init()
     {
         points=0
-        time=3
+        time=30
         mole=makeMole()
         displayPoints(points)
         displayTime(time)
